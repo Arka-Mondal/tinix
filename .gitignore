@@ -1,3 +1,7 @@
 *.o
 *.iso
 *.bin
+isrs.s
+isrh.c
+isrh_regis.c
+*.py

@@ -6,6 +6,7 @@
 
 #include "gdt.h"
 #include "idt.h"
+#include "isr.h"
 #include "types.h"
 #include "kio.h"
 #include "serial.h"
@@ -17,6 +18,7 @@ void kinit(void)
   serial_init();
   tty_init();
   idt_init();
+  isr_initialize();
 }
 
 int kmain(uint32 magic, uint32 mbootaddr)

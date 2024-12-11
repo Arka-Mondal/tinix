@@ -15,7 +15,7 @@ CCFLAG := -Wall -Wextra
 LDFLAG := -z noexecstack
 LDPAGESIZE := -z max-page-size=4096
 
-OBJECTS = entry.o gdtload.o idtload.o gdt.o idt.o main.o tty.o serial.o kio.o string.o
+OBJECTS = entry.o gdtload.o idtload.o gdt.o idt.o main.o tty.o serial.o kio.o string.o isr.o interrupt_handlers.o
 
 $(ISONAME) : $(ISODIR)/boot/$(BINNAME) $(ISODIR)/boot/grub/grub.cfg
 	grub2-mkrescue -o $(ISONAME) $(ISODIR)
@@ -35,10 +35,16 @@ gdtload.o : gdtload.s
 idtload.o : idtload.s
 	$(CC) -o $@ -c $< $(ARCH32FLAG)
 
+interrupt_handlers.o : interrupt_handlers.s
+	$(CC) -o $@ -c $< $(ARCH32FLAG)
+
 gdt.o : gdt.c gdt.h
 	$(CC) -o $@ -c $< $(ARCH32FLAG) $(DILECTFLAG) $(CCFLAG)
 
 idt.o : idt.c idt.h
+	$(CC) -o $@ -c $< $(ARCH32FLAG) $(DILECTFLAG) $(CCFLAG)
+
+isr.o : isr.c isr.h
 	$(CC) -o $@ -c $< $(ARCH32FLAG) $(DILECTFLAG) $(CCFLAG)
 
 tty.o : tty.c tty.h x86.h
